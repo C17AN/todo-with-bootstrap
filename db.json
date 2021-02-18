@@ -1,0 +1,6 @@
+{
+  "tasks": [{"title": "파바 다녀오기", "deadLine": "2021-02-13", "description": "파바 다녀오기", "importance": "high"}],
+  "posts": [{ "id": 1, "title": "json-server", "author": "typicode" }],
+  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
+  "profile": { "name": "typicode" }
+}
