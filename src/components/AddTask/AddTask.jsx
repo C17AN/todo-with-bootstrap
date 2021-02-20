@@ -4,6 +4,8 @@ import { toggleShowMode } from "../../redux/actions";
 import moment from "moment";
 import { connect } from "react-redux";
 import { addTask } from "../../redux/actions";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 const AddTask = ({ isAddMode, toggleShowMode, addTask }) => {
   const [title, setTitle] = useState("");
@@ -11,6 +13,21 @@ const AddTask = ({ isAddMode, toggleShowMode, addTask }) => {
   const [deadLine, setDeadLine] = useState(
     moment(new Date()).format("yyyy-MM-DDThh:mm")
   );
+
+  const handleTaskSubmit = async () => {
+    await axios.post("http://localhost:5000/tasks", {
+      id: uuidv4(),
+      title,
+      importance,
+      deadLine,
+    });
+    addTask({
+      title,
+      importance,
+      deadLine,
+    });
+    toggleShowMode();
+  };
 
   return (
     <div>
@@ -43,7 +60,7 @@ const AddTask = ({ isAddMode, toggleShowMode, addTask }) => {
                       name="importance"
                       id="importance-low"
                       required
-                      value={importance}
+                      value={0}
                       onChange={(e) => setImportance(e.target.value)}
                     ></input>
                     <label
@@ -106,16 +123,7 @@ const AddTask = ({ isAddMode, toggleShowMode, addTask }) => {
           <Button variant="secondary" onClick={toggleShowMode}>
             취소
           </Button>
-          <Button
-            variant="primary"
-            onClick={() =>
-              addTask({
-                title,
-                importance,
-                deadLine,
-              })
-            }
-          >
+          <Button variant="primary" onClick={() => handleTaskSubmit()}>
             일정 추가
           </Button>
         </Modal.Footer>

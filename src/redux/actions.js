@@ -1,10 +1,16 @@
-import { ADD_TASK, ADD_MODE, SHOW_MODE } from "./actionTypes";
+import { ADD_TASK, ADD_MODE, SHOW_MODE, DELETE_TASK } from "./actionTypes";
 
 export const addTask = (task) => {
-  console.log(task);
   return {
     type: ADD_TASK,
-    payload: { ...task, id: 1 },
+    payload: task,
+  };
+};
+
+export const deleteTask = (id) => {
+  return {
+    type: DELETE_TASK,
+    payload: id,
   };
 };
 

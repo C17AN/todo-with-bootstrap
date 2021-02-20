@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { Accordion, Alert, Button, Card } from "react-bootstrap";
-import { HIGH, LOW, MID } from "../../constants";
-import moment from "moment";
+import { Alert, Button, Card } from "react-bootstrap";
+import axios from "axios";
+import { connect } from "react-redux";
+import { deleteTask } from "../../redux/actions";
 
-const TaskItem = ({ props: { title, importance, deadLine } }) => {
+const TaskItem = ({
+  props: { id, title, importance, deadLine },
+  deleteTask,
+}) => {
   //const [timeLeft, setTimeLeft] = useState();
   const [dayLeft, setDayLeft] = useState(
     Math.floor(
@@ -12,25 +16,32 @@ const TaskItem = ({ props: { title, importance, deadLine } }) => {
     )
   );
 
+  const handleTaskDone = async () => {
+    await axios
+      .delete(`http://localhost:5000/tasks/${id}`)
+      .then((data) => console.log(data));
+    deleteTask(id);
+  };
+
   const calculateTimeLeft = () => {
     if (dayLeft >= 1) {
       return `${Math.floor(dayLeft)}일`;
-    } else {
+    } else if (dayLeft >= 0) {
       return `${Math.floor(
         (new Date(deadLine).getTime() - new Date().getTime()) / (1000 * 60 * 60)
       )}시간`;
+    } else {
+      return `기한 초과`;
     }
   };
 
   const setAlertColor = (importance) => {
     switch (importance) {
-      case LOW:
+      case "0":
         return "primary";
-        break;
-      case MID:
+      case "1":
         return "warning";
-        break;
-      case HIGH:
+      case "2":
         return "danger";
       default:
         break;
@@ -39,16 +50,14 @@ const TaskItem = ({ props: { title, importance, deadLine } }) => {
 
   const setImportanceText = (importance) => {
     switch (importance) {
-      case LOW:
+      case "0":
         return "낮음";
-        break;
-      case MID:
+      case "1":
         return "보통";
-        break;
-      case HIGH:
+      case "2":
         return "높음";
       default:
-        break;
+        return;
     }
   };
 
@@ -85,7 +94,7 @@ const TaskItem = ({ props: { title, importance, deadLine } }) => {
             <Button className="mr-3" variant="danger">
               수정
             </Button>
-            <Button>완료</Button>
+            <Button onClick={handleTaskDone}>완료</Button>
           </div>
         </Card.Body>
       </Card>
@@ -93,4 +102,4 @@ const TaskItem = ({ props: { title, importance, deadLine } }) => {
   );
 };
 
-export default TaskItem;
+export default connect(null, { deleteTask })(TaskItem);
