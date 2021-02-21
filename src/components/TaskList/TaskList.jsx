@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Accordion,
-  Card,
-  Col,
-  Container,
-  ListGroup,
-  Row,
-} from "react-bootstrap";
+import { Accordion, Card, ListGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import TaskItem from "../TaskItem/TaskItem";
 

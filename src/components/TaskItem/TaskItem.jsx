@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Alert, Button, Card } from "react-bootstrap";
 import axios from "axios";
 import { connect } from "react-redux";
-import { deleteTask } from "../../redux/actions";
+import { deleteTask, toggleModMode } from "../../redux/actions";
+import ModTask from "../ModTask/ModTask";
 
 const TaskItem = ({
   props: { id, title, importance, deadLine },
   deleteTask,
+  toggleModMode,
 }) => {
   //const [timeLeft, setTimeLeft] = useState();
   const [dayLeft, setDayLeft] = useState(
@@ -91,9 +93,10 @@ const TaskItem = ({
             >
               마감기한 : {calculateTimeLeft(dayLeft)}
             </Alert>
-            <Button className="mr-3" variant="danger">
+            <Button className="mr-3" variant="danger" onClick={toggleModMode}>
               수정
             </Button>
+            <ModTask id={id}></ModTask>
             <Button onClick={handleTaskDone}>완료</Button>
           </div>
         </Card.Body>
@@ -102,4 +105,4 @@ const TaskItem = ({
   );
 };
 
-export default connect(null, { deleteTask })(TaskItem);
+export default connect(null, { deleteTask, toggleModMode })(TaskItem);

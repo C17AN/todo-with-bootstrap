@@ -15,6 +15,12 @@ const taskReducer = (state = initialState, action) => {
       };
 
     case ADD_TASK:
+      return {
+        ...state,
+        taskList: [...state.taskList, action.payload],
+      };
+
+    case MOD_TASK:
       console.log(state);
       return {
         ...state,

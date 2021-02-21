@@ -4,6 +4,7 @@ import TaskList from "../TaskList/TaskList";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import axios from "axios";
+import ModTask from "../ModTask/ModTask";
 
 const WrapperContainer = styled.div`
   display: flex;
